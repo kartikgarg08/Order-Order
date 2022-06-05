@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PorductSchema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -15,7 +15,7 @@ const PorductSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        category: {
+        categories: {
             type: Array,
         },
         size: {
