@@ -22,14 +22,13 @@ router.post("/", verifyToken, async (req, res) => {
 
 //UPDATE
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
-
     try {
         const updatedCart = await Cart.findByIdAndUpdate(
-        req.params.id,
-        {
-            $set: req.body,
-        },
-        { new: true }
+            req.params.id,
+            {
+                $set: req.body,
+            },
+            { new: true }
         );
         res.status(200).json(updatedCart);
     } catch (err) {
@@ -57,8 +56,7 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
     }
 });
 
-// //GET ALL
-
+//GET ALL
 router.get("/", verifyTokenAndAdmin, async (req, res) => {
     try {
         const carts = await Cart.find();
