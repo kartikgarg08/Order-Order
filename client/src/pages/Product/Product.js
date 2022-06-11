@@ -4,35 +4,12 @@ import Announcement from "../../components/Announcement/Announcement";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
 import Newsletter from "../../components/Newsletter/Newsletter";
-import { mobile } from "../../responsive";
 import styles from './product.module.css';
-
-// const Wrapper = styled.div`
-//   padding: 50px;
-//   display: flex;
-//   ${mobile({ padding: "10px", flexDirection:"column" })}
-// `;
-
-// const Image = styled.img`
-//   width: 100%;
-//   height: 90vh;
-//   object-fit: cover;
-//   ${mobile({ height: "40vh" })}
-// `;
-
-// const InfoContainer = styled.div`
-//   flex: 1;
-//   padding: 0px 50px;
-//   ${mobile({ padding: "10px" })}
-// `;
-
-// const FilterContainer = styled.div`
-//   width: 50%;
-//   margin: 30px 0px;
-//   display: flex;
-//   justify-content: space-between;
-//   ${mobile({ width: "100%" })}
-// `;
+import { useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { useState, useEffect } from "react";
+import { publicRequest } from "../../requestMethod";
+import { addProduct } from "../../redux/cartRedux";
 
 const FilterColor = styled.div`
   width: 20px;
@@ -43,62 +20,101 @@ const FilterColor = styled.div`
   cursor: pointer;
 `;
 
-// const AddContainer = styled.div`
-//   width: 50%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   ${mobile({ width: "100%" })}
-// `;
-
 const Product = () => {
+
+  const location = useLocation();
+  const id = location.pathname.split('/')[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/"+id)
+        setProduct(res.data);
+      } catch (err) {}
+    }
+    getProduct()
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    dispatch(
+      addProduct({ ...product, quantity, color, size })
+    );
+  };
+  
+
   return (
     <div className="container">
       <Navbar />
       <Announcement />
       <div className={styles.wrapper}>
+
         <div className={styles.imgContainer}>
-          <img className={styles.img} src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <img className={styles.img} src={product.img} />
+          {/* <img className={styles.img} src="https://i.ibb.co/S6qMxwr/jean.jpg" /> */}
         </div>
+
         <div className={styles.infoContainer}>
-          <h1 className={styles.title}> Denim Jumpsuit </h1>
-          <p className={styles.desc}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </p>
-          <span className={styles.price}> $ 20 </span>
+          <h1 className={styles.title}> {product.title} </h1>
+          <p className={styles.desc}> {product.desc} </p>
+          <span className={styles.price}> $ {product.price} </span>
+
           <div className={styles.filterContainer}>
+
             <div className={styles.filter}>
               <span className={styles.filterTitle}> Color </span>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)}/>
+              ))}
             </div>
+
             <div className={styles.filter}>
               <span className={styles.filterTitle}> Size </span>
-              <select className={styles.filterSize}>
-                <option className="filterSizeOption"> XS </option>
-                <option className="filterSizeOption"> S </option>
-                <option className="filterSizeOption"> M </option>
-                <option className="filterSizeOption"> L </option>
-                <option className="filterSizeOption"> XL </option>
+              <select 
+                className={styles.filterSize} 
+                onChange={(e) => setSize(e.target.value)}
+              >
+                {product.size?.map((s) => (
+                  <option className="filterSizeOption" key={s}> {s} </option>
+                ))}
               </select>
             </div>
+
           </div>
+
           <div className={styles.addContainer}>
+
             <div className={styles.amountContainer}>
               {/* <Remove /> */}
-              <i class="fa-solid fa-minus"></i>
-              <span className={styles.amount}> 1 </span>
+              <i 
+                class="fa-solid fa-minus" 
+                onClick={() => handleQuantity("dec")}
+              ></i>
+              <span className={styles.amount}> {quantity} </span>
               {/* <Add /> */}
-              <i class="fa-solid fa-plus"></i>
+              <i 
+                class="fa-solid fa-plus"
+                onClick={() => handleQuantity("inc")}
+              ></i>
             </div>
-            <button className={styles.button}> ADD TO CART </button>
+
+            <button className={styles.button} onClick={handleClick}> ADD TO CART </button>
           </div>
+
         </div>
+
       </div>
       <Newsletter />
       <Footer />
