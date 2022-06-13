@@ -8,7 +8,7 @@ import styles from './product.module.css';
 import { useLocation } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
-import { publicRequest } from "../../requestMethod";
+import { publicRequest } from "../../requestMethods";
 import { addProduct } from "../../redux/cartRedux";
 
 const FilterColor = styled.div`

@@ -2,6 +2,7 @@ import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import { Badge } from '@material-ui/core';
 import styles from './navbar.module.css';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -27,11 +28,13 @@ const Navbar = () => {
         <div className={styles.right}>
           <div className={styles.menuItem}> REGISTER </div>
           <div className={styles.menuItem}> SIGN IN </div>
-          <div className={styles.menuItem}>
-            <Badge badgeContent={quantity} color="primary">
-               <ShoppingCartOutlined />
-            </Badge>
-          </div>
+          <Link to="/cart">
+            <div className={styles.menuItem}>
+              <Badge badgeContent={quantity} color="primary">
+                <ShoppingCartOutlined style={{textDecoration: 'none', color: "black"}}/>
+              </Badge>
+            </div>
+          </Link>
         </div>
 
       </div>

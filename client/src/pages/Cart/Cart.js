@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Announcement from "../../components/Announcement/Announcement";
 import Footer from "../../components/Footer/Footer";
 import Navbar from "../../components/Navbar/Navbar";
-import { mobile } from "../../responsive";
 import styles from './cart.module.css';
+import StripeCheckout from "react-stripe-checkout";
+import { useEffect, useState } from "react";
+import { userRequest } from "../../requestMethods";
+import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 
-// const Wrapper = styled.div`
-//   padding: 20px;
-//   ${mobile({ padding: "10px" })}
-// `;
+const KEY= process.env.REACT_APP_STRIPE;
 
 const TopButton = styled.button`
   padding: 10px;
@@ -21,40 +22,12 @@ const TopButton = styled.button`
   color: ${(props) => props.type === "filled" && "white"};
 `;
 
-// const TopTexts = styled.div`
-//   ${mobile({ display: "none" })}
-// `;
-
-// const Bottom = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   ${mobile({ flexDirection: "column" })}
-// `;
-
-// const Product = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   ${mobile({ flexDirection: "column" })}
-// `;
-
 const ProductColor = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background-color: ${(props) => props.color};
 `;
-
-// const ProductAmount = styled.div`
-//   font-size: 24px;
-//   margin: 5px;
-//   ${mobile({ margin: "5px 15px" })}
-// `;
-
-// const ProductPrice = styled.div`
-//   font-size: 30px;
-//   font-weight: 200;
-//   ${mobile({ marginBottom: "20px" })}
-// `;
 
 const SummaryItem = styled.div`
   margin: 30px 0px;
@@ -65,6 +38,30 @@ const SummaryItem = styled.div`
 `;
 
 const Cart = () => {
+
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const history = useHistory();
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: 500,
+        });
+        history.push("/success", {
+          stripeData: res.data,
+          products: cart, });
+      } catch {}
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, history]);
+
   return (
     <div className="container">
 
@@ -72,13 +69,13 @@ const Cart = () => {
       <Announcement />
       <div className={styles.wrapper}>
 
-        <h1 className={styles.title}>YOUR BAG</h1>
+        <h1 className={styles.title}> YOUR BAG </h1>
 
         <div className={styles.top}>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <TopButton> CONTINUE SHOPPING </TopButton>
           <div className={styles.topTexts}>
-            <span className={styles.topText}>Shopping Bag(2)</span>
-            <span className={styles.topText}>Your Wishlist (0)</span>
+            <span className={styles.topText}> Shopping Bag(2) </span>
+            <span className={styles.topText}> Your Wishlist (0) </span>
           </div>
           <TopButton type="filled"> CHECKOUT NOW </TopButton>
         </div>
@@ -86,61 +83,39 @@ const Cart = () => {
         <div className={styles.bottom}>
           <div className={styles.info}>
 
-            <div className={styles.product}>
-              <div className={styles.productDetail}>
-                <img className={styles.img} src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <div className={styles.details}>
-                  <span className="productName">
-                    <strong> Product: </strong> JESSIE THUNDER SHOES
-                  </span>
-                  <span className="productId">
-                    <strong> ID: </strong> 93813718293
-                  </span>
-                  <ProductColor color="black" />
-                  <span className="productSize">
-                    <strong> Size: </strong> 37.5
-                  </span>
+            {cart.products.map((product) =>(
+
+              <div className={styles.product}>
+                <div className={styles.productDetail}>
+                  {/* <img className={styles.img} src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" /> */}
+                  <img className={styles.img} src={product.img} />
+                  <div className={styles.details}>
+                    <span className="productName">
+                      <strong> Product: </strong> {product.title}
+                    </span>
+                    <span className="productId">
+                      <strong> ID: </strong> {product._id}
+                    </span>
+                    <ProductColor color={product.color} />
+                    <span className="productSize">
+                      <strong> Size: </strong> {product.size}
+                    </span>
+                  </div>
+                </div>
+
+                <div className={styles.priceDetail}>
+                  <div className={styles.productAmountContainer}>
+                    <Add />
+                    <div className={styles.productAmount}> {product.quantity} </div>
+                    <Remove />
+                  </div>
+                  <div className={styles.productPrice}> $ {product.price * product.quantity} </div>
                 </div>
               </div>
 
-              <div className={styles.priceDetail}>
-                <div className={styles.productAmountContainer}>
-                  <Add />
-                  <div className={styles.productAmount}> 2 </div>
-                  <Remove />
-                </div>
-                <div className={styles.productPrice}> $ 30 </div>
-              </div>
-            </div>
+            ))}
 
             <hr className={styles.hr} />
-
-            <div className={styles.product}>
-              <div className={styles.productDetail}>
-                <img className={styles.img} src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                <div className={styles.details}>
-                  <span className="productName">
-                    <strong> Product: </strong> HAKURA T-SHIRT
-                  </span>
-                  <span className="productId">
-                    <strong> ID: </strong> 93813718293
-                  </span>
-                  <ProductColor color="gray" />
-                  <span className="productSize">
-                    <strong> Size: </strong> M
-                  </span>
-                </div>
-              </div>
-
-              <div className={styles.priceDetail}>
-                <div className={styles.productAmountContainer}>
-                  <Add />
-                  <div className={styles.productAmount}> 1 </div>
-                  <Remove />
-                </div>
-                <div className={styles.productPrice}> $ 20 </div>
-              </div>
-            </div>
 
           </div>
 
@@ -149,25 +124,36 @@ const Cart = () => {
 
             <SummaryItem>
               <span className="summaryItemText"> Subtotal </span>
-              <span className="summaryItemPrice"> $ 80 </span>
+              <span className="summaryItemPrice"> $ {cart.total} </span>
             </SummaryItem>
 
             <SummaryItem>
               <span className="summaryItemText"> Estimated Shipping </span>
-              <span className="summaryItemPrice"> $ 5.90 </span>
+              <span className="summaryItemPrice"> $ 4.99 </span>
             </SummaryItem>
 
             <SummaryItem>
               <span className="summaryItemText"> Shipping Discount </span>
-              <span className="summaryItemPrice"> $ -5.90 </span>
+              <span className="summaryItemPrice"> $ -4.99 </span>
             </SummaryItem>
 
             <SummaryItem type="total">
               <span className="summaryItemText"> Total </span>
-              <span className="summaryItemPrice"> $ 80 </span>
+              <span className="summaryItemPrice"> $ {cart.total} </span>
             </SummaryItem>
 
-            <button className={styles.button}> CHECKOUT NOW </button>
+            <StripeCheckout
+              name="Order-Order"
+              image="https://images.unsplash.com/photo-1593115057322-e94b77572f20?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8anVkZ2UlMjBoYW1tZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
+              billingAddress
+              shippingAddress
+              description={`Your total is $ ${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <button className={styles.button}> CHECKOUT NOW </button>
+            </StripeCheckout>
           </div>
 
         </div>
