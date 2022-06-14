@@ -1,7 +1,7 @@
 import './chart.css'
 import {
-    LineChart, Line, XAxis,
-    CartesianGrid, Tooltip, ResponsiveContainer,
+  LineChart, Line, XAxis,
+  CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
 
 const Chart = ({ title, data, dataKey, grid }) => {

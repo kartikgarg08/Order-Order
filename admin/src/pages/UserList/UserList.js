@@ -1,116 +1,71 @@
 import './userList.css';
 import { DataGrid } from '@mui/x-data-grid';
+import { DeleteOutline } from "@material-ui/icons";
+import { userRows } from "../../dummyData";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const UserList = () => {
 
+    const [data, setData] = useState(userRows);
+
+    const handleDelete = (id) => {
+        setData(data.filter((item) => item.id !== id));
+      };
+
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'firstName', headerName: 'First name', width: 130 },
-        { field: 'lastName', headerName: 'Last name', width: 130 },
+        { field: 'id', headerName: 'ID', width: 90 },
+        { 
+            field: 'user', 
+            headerName: 'User', 
+            width: 200,
+            renderCell:(params)=>{
+                return (
+                    <div className="userListUser">
+                        <img className="userListImg" src={params.row.avatar} alt=""/>
+                        {params.row.username}
+                    </div>
+                );
+            },
+        },
+        { field: 'email', headerName: 'Email', width: 200 },
         {
-          field: 'age',
-          headerName: 'Age',
-          type: 'number',
-          width: 90,
+          field: 'status',
+          headerName: 'Status',
+          width: 120,
         },
         {
-          field: 'fullName',
-          headerName: 'Full name',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
+          field: 'transaction',
+          headerName: 'Transaction Volume',
           width: 160,
         },
-      ];
-      
-      const rows = [
-        { 
-            id: 1, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
+        {
+            field: 'action', 
+            headerName: 'Action', 
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <Link to={"/user/" + params.row.id}>
+                            <button className="userListEdit">Edit</button>
+                        </Link>
+                        <DeleteOutline
+                            className="userListDelete"
+                            onClick={() => handleDelete(params.row.id)}
+                        />
+                    </>
+                );
+            },
         },
-        { 
-            id: 2, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 3, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 4, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 5, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 6, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 7, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 8, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 9, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-        { 
-            id: 10, 
-            username: 'John Doe',
-            avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-            email: "johndoe@gmail.com",
-            status: "active",
-            transaction: "$120.00"
-        },
-      ];
+    ];
 
     return (
         <div className="userList">
             <DataGrid
-                rows={rows}
+                rows={data}
+                disableSelectionOnClick
                 columns={columns}
-                pageSize={5}
+                pageSize={8}
                 rowsPerPageOptions={[5]}
                 checkboxSelection
             />
