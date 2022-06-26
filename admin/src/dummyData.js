@@ -28,11 +28,11 @@ export const userData = [
       "Active User": 4000,
     },
     {
-      name: "Aug",
+      name: "Agu",
       "Active User": 3000,
     },
     {
-      name: "Sept",
+      name: "Sep",
       "Active User": 4000,
     },
     {
@@ -48,6 +48,7 @@ export const userData = [
       "Active User": 3000,
     },
 ];
+
 export const productData = [
   {
     name: "Jan",
