@@ -1,14 +1,14 @@
 export const sliderItems = [
   {
     id: 1,
-    img: "https://images.unsplash.com/photo-1632149877166-f75d49000351?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDJ8fGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+    img: "https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjF8fGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
     title: "SUMMER SALE!!",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS!",
     bg: "f5fafd",
   },
   {
     id: 2,
-    img: "https://images.unsplash.com/photo-1632149877166-f75d49000351?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDJ8fGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+    img: "https://images.unsplash.com/photo-1566206091558-7f218b696731?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
     title: "AUTUMN COLLECTION!!",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS!",
     bg: "fcf1ed",
@@ -16,7 +16,7 @@ export const sliderItems = [
   {
     id: 3,
     img: "https://images.unsplash.com/photo-1632149877166-f75d49000351?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDJ8fGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    title: "LOUNGEWEAR LOVE!!",
+    title: "WINTER LOVE!!",
     desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS!",
     bg: "fbf0f4",
   },
@@ -26,19 +26,19 @@ export const categories = [
   {
     id: 1,
     img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    title: "SHIRT STYLE!",
-    cat: "shirt"
+    title: "T-SHIRT STYLE!",
+    cat: "tshirt"
   },
   {
     id: 2,
-    img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    title: "LOUNGEWEAR LOVE",
+    img: "https://images.unsplash.com/photo-1515938736719-95b568dc8dd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8d2ludGVyJTIwZmFzaGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+    title: "WINTER LOVE",
     cat: "coat"
   },
   {
     id: 3,
-    img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    title: "LIGHT JACKETS",
+    img: "https://images.unsplash.com/photo-1523359346063-d879354c0ea5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGplYW5zJTIwZmFzaGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+    title: "LIGHT JEANS",
     cat: "jeans"
   },
 ];

@@ -26,8 +26,12 @@ const Navbar = () => {
         <div className={styles.center}> <h1> Order-Order </h1> </div>
 
         <div className={styles.right}>
-          <div className={styles.menuItem}> REGISTER </div>
-          <div className={styles.menuItem}> SIGN IN </div>
+          <Link to='/register'>
+            <div className={styles.menuItem}> REGISTER </div>
+          </Link>
+          <Link to='/login'>
+            <div className={styles.menuItem}> SIGN IN </div>
+          </Link>
           <Link to="/cart">
             <div className={styles.menuItem}>
               <Badge badgeContent={quantity} color="primary">

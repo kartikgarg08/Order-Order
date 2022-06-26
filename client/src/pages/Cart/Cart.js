@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { userRequest } from "../../requestMethods";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
+import { Link} from 'react-router-dom';
+import Success from '../Success';
 
 const KEY= process.env.REACT_APP_STRIPE;
 
@@ -42,6 +44,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
+  const quantity = useSelector(state => state.cart.quantity);
 
   const onToken = (token) => {
     setStripeToken(token);
@@ -72,10 +75,11 @@ const Cart = () => {
         <h1 className={styles.title}> YOUR BAG </h1>
 
         <div className={styles.top}>
-          <TopButton> CONTINUE SHOPPING </TopButton>
+          <Link to='/'>
+            <TopButton> CONTINUE SHOPPING </TopButton>
+          </Link>
           <div className={styles.topTexts}>
-            <span className={styles.topText}> Shopping Bag(2) </span>
-            <span className={styles.topText}> Your Wishlist (0) </span>
+            <span className={styles.topText}> Shopping Bag ({quantity}) </span>
           </div>
           <TopButton type="filled"> CHECKOUT NOW </TopButton>
         </div>

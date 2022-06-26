@@ -7,7 +7,6 @@ import Cart from "./pages/Cart/Cart";
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Success from "./pages/Success";
 import { useSelector } from "react-redux";
-// import Pay from './Pay';
 
 const App = () => {
 
